@@ -9,31 +9,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
 
-    private int lineToMove = 1;
-    public float lineDistance = 4;
+    private int lineToMove = 0;
+    public float lineDistance = 3;
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
     }
 
-    private void Jump()
-    {
-        direction.y = jumpForce;
-    }
-
     private void Update()
     {
         if (SwipeController.swipeRight)
         {
-            if (lineToMove < 2) 
-                lineToMove++;
+            if (lineToMove < 3) 
+                lineToMove += 3;
         }
 
         if (SwipeController.swipeLeft)
         {
-            if (lineToMove > 0) 
-                lineToMove--;
+            if (lineToMove > -3) 
+                lineToMove -= 3;
         }
 
         if (SwipeController.swipeUp)
@@ -42,19 +37,40 @@ public class PlayerController : MonoBehaviour
                 Jump();
         }
 
-        Vector3 targetPosition = transform.position.x * transform.right + transform.position.y * transform.up;
+        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
 
-        if (lineToMove == 0) 
-            targetPosition += Vector3.forward * lineDistance;
-        else if (lineToMove == 2) 
-            targetPosition += Vector3.back * lineDistance;
+        if (lineToMove == -3) 
+            targetPosition += Vector3.left * lineDistance;
 
-        transform.position = targetPosition;
+        else if (lineToMove == 3) 
+            targetPosition += Vector3.right * lineDistance;
+
+        if (transform.position == targetPosition) 
+            return;
+
+        Vector3 diff = targetPosition - transform.position;
+        Vector3 moveDir = diff.normalized * 25 * Time.deltaTime;
+
+        if (moveDir.sqrMagnitude < diff.sqrMagnitude) 
+            controller.Move(moveDir);
+        else 
+            controller.Move(diff);
+    }
+
+    private void Jump()
+    {
+        direction.y = jumpForce;
     }
 
     private void FixedUpdate()
     {
         direction.y += gravity * Time.fixedDeltaTime;
         controller.Move(direction * Time.fixedDeltaTime);
+    }
+
+    private void OnCollisionEnter(Collision enemy)
+    {
+        if (enemy.collider.GetComponent<ObstacleController>()) 
+            Time.timeScale = 0;
     }
 }
