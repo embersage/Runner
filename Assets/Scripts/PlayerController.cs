@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
+    [SerializeField] private int coinsCount;
+    [SerializeField] private Text coinsText;
 
     private int lineToMove = 0;
     public float lineDistance = 3;
@@ -72,5 +75,15 @@ public class PlayerController : MonoBehaviour
     {
         if (enemy.collider.GetComponent<ObstacleController>()) 
             Time.timeScale = 0;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Coin")
+        {
+            coinsCount++;
+            coinsText.text = (coinsCount / 2).ToString();
+            Destroy(other.gameObject);
+        }
     }
 }
