@@ -7,9 +7,12 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
     private Vector3 direction;
+    private Score score;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
     [SerializeField] private int coinsCount;
+    [SerializeField] private GameObject ScoreText;
+
     [SerializeField] private Text coinsText;
 
     private int lineToMove = 0;
@@ -18,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        score = ScoreText.GetComponent<Score>();
     }
 
     private void Update()
@@ -82,8 +86,14 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Coin")
         {
             coinsCount++;
-            coinsText.text = (coinsCount / 2).ToString();
+            coinsText.text = (coinsCount).ToString();
             Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "BonusStar")
+        {
+            score.speed *= 2;
+            //Debug.Log(score.scoreMultiplier);
         }
     }
 }
