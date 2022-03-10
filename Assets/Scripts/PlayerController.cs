@@ -5,68 +5,64 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    private int lineToMove = 0;
+    public float lineDistance = 3;
     private CharacterController controller;
     private Vector3 direction;
     private Score score;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
     [SerializeField] private int coinsCount;
-    [SerializeField] private GameObject ScoreText;
-
+    [SerializeField] private GameObject scoreText;
+    [SerializeField] private GameObject losePanel;
     [SerializeField] private Text coinsText;
 
-    private int lineToMove = 0;
-    public float lineDistance = 3;
-
-    private void Start()
+    private void OnCollisionEnter(Collision obstacle)
     {
-        controller = GetComponent<CharacterController>();
-        score = ScoreText.GetComponent<Score>();
+        if (obstacle.collider.GetComponent<ObstacleController>())
+        {
+            Time.timeScale = 0;
+            losePanel.SetActive(true);
+        }    
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (SwipeController.swipeRight)
+        if (other.gameObject.tag == "Coin")
         {
-            if (lineToMove < 3) 
-                lineToMove += 3;
+            coinsCount++;
+            coinsText.text = coinsCount.ToString();
+            Destroy(other.gameObject);
         }
 
-        if (SwipeController.swipeLeft)
+        if (other.gameObject.tag == "BonusStar")
         {
-            if (lineToMove > -3) 
-                lineToMove -= 3;
+            StartCoroutine(StarBonus());
+            Destroy(other.gameObject);
         }
+    }
 
-        if (SwipeController.swipeUp)
-        {
-            if (controller.isGrounded) 
-                Jump();
-        }
+    private IEnumerator StarBonus()
+    {
+        score.scoreMultiplier = 2;
 
-        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+        yield return new WaitForSeconds(5);
 
-        if (lineToMove == -3) 
-            targetPosition += Vector3.left * lineDistance;
-
-        else if (lineToMove == 3) 
-            targetPosition += Vector3.right * lineDistance;
-
-        if (transform.position == targetPosition) 
-            return;
-
-        Vector3 diff = targetPosition - transform.position;
-        Vector3 moveDir = diff.normalized * 25 * Time.deltaTime;
-
-        if (moveDir.sqrMagnitude < diff.sqrMagnitude) 
-            controller.Move(moveDir);
-        else 
-            controller.Move(diff);
+        score.scoreMultiplier = 1;
     }
 
     private void Jump()
     {
         direction.y = jumpForce;
+    }
+
+    private void Start()
+    {
+        Time.timeScale = 1;
+        losePanel.SetActive(false);
+        controller = GetComponent<CharacterController>();
+        score = scoreText.GetComponent<Score>();
+        score.scoreMultiplier = 1;
     }
 
     private void FixedUpdate()
@@ -75,25 +71,42 @@ public class PlayerController : MonoBehaviour
         controller.Move(direction * Time.fixedDeltaTime);
     }
 
-    private void OnCollisionEnter(Collision enemy)
+    private void Update()
     {
-        if (enemy.collider.GetComponent<ObstacleController>()) 
-            Time.timeScale = 0;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Coin")
+        if (SwipeController.swipeRight)
         {
-            coinsCount++;
-            coinsText.text = (coinsCount).ToString();
-            Destroy(other.gameObject);
+            if (lineToMove < 3)
+                lineToMove += 3;
         }
 
-        if (other.gameObject.tag == "BonusStar")
+        if (SwipeController.swipeLeft)
         {
-            score.speed *= 2;
-            //Debug.Log(score.scoreMultiplier);
+            if (lineToMove > -3)
+                lineToMove -= 3;
         }
+
+        if (SwipeController.swipeUp)
+        {
+            if (controller.isGrounded)
+                Jump();
+        }
+
+        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+
+        if (lineToMove == -3)
+            targetPosition += Vector3.left * lineDistance;
+        else if (lineToMove == 3)
+            targetPosition += Vector3.right * lineDistance;
+
+        if (transform.position == targetPosition)
+            return;
+
+        Vector3 diff = targetPosition - transform.position;
+        Vector3 moveDir = diff.normalized * 25 * Time.deltaTime;
+
+        if (moveDir.sqrMagnitude < diff.sqrMagnitude)
+            controller.Move(moveDir);
+        else
+            controller.Move(diff);
     }
 }

@@ -5,18 +5,13 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    [SerializeField] private Text scoreText;
-    private int totalScore;
+    int totalScore;
     public int scoreMultiplier;
+    [SerializeField] private Text scoreText;
 
-    public float value = 0;
-    public float speed = 3;
-
-    private void Update()
+    private void FixedUpdate()
     {
-        //totalScore += scoreMultiplier;
-        //scoreText.text = totalScore.ToString();
-        value += Time.deltaTime * speed;
-        scoreText.text = ((int)value).ToString();
+        totalScore += scoreMultiplier;
+        scoreText.text = totalScore.ToString();
     }
 }

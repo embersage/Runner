@@ -12,7 +12,6 @@ public class SwipeController : MonoBehaviour
     {
         touch = swipeUp = swipeDown = swipeLeft = swipeRight = false;
 
-        //ПК
         if (Input.GetMouseButtonDown(0))
         {
             touch = true;
@@ -25,7 +24,6 @@ public class SwipeController : MonoBehaviour
             ResetSwipe();
         }
 
-        //Телефон
         if (Input.touches.Length > 0)
         {
             if (Input.touches[0].phase == TouchPhase.Began)
@@ -41,8 +39,8 @@ public class SwipeController : MonoBehaviour
             }
         }
 
-        //Просчет длины свайпа
         swipeDelta = Vector2.zero;
+
         if (isDraging)
         {
             if (Input.touches.Length < 0)
@@ -51,12 +49,11 @@ public class SwipeController : MonoBehaviour
                 swipeDelta = (Vector2)Input.mousePosition - startTouch;
         }
 
-        //Проверка на пройденность мертвой зоны
         if (swipeDelta.magnitude > 100)
         {
-            //Определение направления
             float x = swipeDelta.x;
             float y = swipeDelta.y;
+
             if (Mathf.Abs(x) > Mathf.Abs(y))
             {
                 if (x < 0)
@@ -71,6 +68,7 @@ public class SwipeController : MonoBehaviour
                 else
                     swipeUp = true;
             }
+
             ResetSwipe();
         }
     }
