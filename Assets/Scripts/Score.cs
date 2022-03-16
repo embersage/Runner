@@ -7,7 +7,7 @@ public class Score : MonoBehaviour
 {
     float totalScore;
     public float scoreMultiplier;
-    [SerializeField] private Text scoreText;
+    [SerializeField] public Text scoreText;
 
     private void FixedUpdate()
     {

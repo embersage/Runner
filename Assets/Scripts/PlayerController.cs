@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject scoreText;
     [SerializeField] private GameObject losePanel;
     [SerializeField] private Text coinsText;
+    [SerializeField] private Score scoreScript;
     private bool IsImmortal;
 
     private void OnCollisionEnter(Collision obstacle)
@@ -23,11 +24,13 @@ public class PlayerController : MonoBehaviour
         if (obstacle.collider.GetComponent<ObstacleController>())
         {
             if (IsImmortal)
-                Destroy(obstacle.collider);
+                Destroy(obstacle.gameObject);
             else
             {
                 Time.timeScale = 0;
                 losePanel.SetActive(true);
+                int LastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
+                PlayerPrefs.SetInt("lastRunScore", LastRunScore);
             }            
         }    
     }
