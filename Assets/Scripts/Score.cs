@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    int totalScore;
-    public int scoreMultiplier;
+    float totalScore;
+    public float scoreMultiplier;
     [SerializeField] private Text scoreText;
 
     private void FixedUpdate()
     {
+        
         totalScore += scoreMultiplier;
-        scoreText.text = totalScore.ToString();
+        scoreText.text = Mathf.Round(totalScore).ToString();
     }
 }

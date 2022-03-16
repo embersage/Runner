@@ -26,29 +26,29 @@ public class PlayerController : MonoBehaviour
         }    
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider bonus)
     {
-        if (other.gameObject.tag == "Coin")
+        if (bonus.gameObject.tag == "Coin")
         {
             coinsCount++;
             coinsText.text = coinsCount.ToString();
-            Destroy(other.gameObject);
+            Destroy(bonus.gameObject);
         }
 
-        if (other.gameObject.tag == "BonusStar")
+        if (bonus.gameObject.tag == "BonusStar")
         {
             StartCoroutine(StarBonus());
-            Destroy(other.gameObject);
+            Destroy(bonus.gameObject);
         }
     }
 
     private IEnumerator StarBonus()
     {
-        score.scoreMultiplier = 2;
+        score.scoreMultiplier = 1;
 
         yield return new WaitForSeconds(5);
 
-        score.scoreMultiplier = 1;
+        score.scoreMultiplier = 0.5f;
     }
 
     private void Jump()
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         losePanel.SetActive(false);
         controller = GetComponent<CharacterController>();
         score = scoreText.GetComponent<Score>();
-        score.scoreMultiplier = 1;
+        score.scoreMultiplier = 0.5f;
     }
 
     private void FixedUpdate()

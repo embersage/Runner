@@ -851,7 +851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoinsPrefabs:
-  - {fileID: 416918269488954728, guid: b597c8706a4ac724fbd97bff622d6652, type: 3}
+  - {fileID: 3157340703348401852, guid: 1086820906b97c8459127f9736b0cace, type: 3}
   CoinsPositions:
   - {fileID: 604526200}
   - {fileID: 1090299062}
@@ -993,8 +993,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObstaclesPrefabs:
-  - {fileID: 2480210054853971714, guid: 232ffa0dce790bd4e826a2cf0ddba9d3, type: 3}
-  - {fileID: 2690475731760235731, guid: 37cebc651352b7d41ba3b933444defd8, type: 3}
+  - {fileID: 1888522651139926174, guid: 82a968eea2ac85d4e89a8b67790898f2, type: 3}
+  - {fileID: 692766472420230304, guid: 56c10161d959800439d837ca36aa387f, type: 3}
   ObstaclesPositions:
   - {fileID: 1355953467}
   - {fileID: 2023293355}
