@@ -16,18 +16,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject scoreText;
     [SerializeField] private GameObject losePanel;
     [SerializeField] private Text coinsText;
-    private bool isImmortal;
+    [SerializeField] private Score scoreScript;
+    private bool IsImmortal;
 
     private void OnCollisionEnter(Collision obstacle)
     {
         if (obstacle.collider.GetComponent<ObstacleController>())
         {
-            if (isImmortal)
+            if (IsImmortal)
                 Destroy(obstacle.gameObject);
             else
             {
                 Time.timeScale = 0;
                 losePanel.SetActive(true);
+                int LastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
+                PlayerPrefs.SetInt("lastRunScore", LastRunScore);
             }            
         }    
     }
@@ -65,11 +68,11 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ShieldBonus()
     {
-        isImmortal = true;
+        IsImmortal = true;
 
         yield return new WaitForSeconds(8);
 
-        isImmortal = false;
+        IsImmortal = false;
     }
 
     private void Jump()
@@ -84,7 +87,7 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         score = scoreText.GetComponent<Score>();
         score.scoreMultiplier = 0.5f;
-        isImmortal = false;
+        IsImmortal = false;
     }
 
     private void FixedUpdate()
