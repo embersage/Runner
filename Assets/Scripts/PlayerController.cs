@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text coinsText;
     [SerializeField] private Score scoreScript;
     private bool IsImmortal;
+    //абоба
 
     private void OnCollisionEnter(Collision obstacle)
     {
