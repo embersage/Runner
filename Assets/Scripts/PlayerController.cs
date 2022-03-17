@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
             {
                 Time.timeScale = 0;
                 losePanel.SetActive(true);
-                int LastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
-                PlayerPrefs.SetInt("lastRunScore", LastRunScore);
+                int lastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
+                PlayerPrefs.SetInt("lastRunScore", lastRunScore);
             }            
         }    
     }
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         IsImmortal = true;
 
-        yield return new WaitForSeconds(8);
+        yield return new WaitForSeconds(10);
 
         IsImmortal = false;
     }
