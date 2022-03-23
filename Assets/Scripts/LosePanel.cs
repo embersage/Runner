@@ -24,6 +24,7 @@ public class LosePanel : MonoBehaviour
             recordText.text = recordScore.ToString();
         }
     }
+
     public void Restart()
     {
         SceneManager.LoadScene(0);

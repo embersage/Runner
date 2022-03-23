@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text coinsText;
     [SerializeField] private Score scoreScript;
     private bool IsImmortal;
-    //абоба
 
     private void OnCollisionEnter(Collision obstacle)
     {
@@ -89,6 +88,7 @@ public class PlayerController : MonoBehaviour
         score = scoreText.GetComponent<Score>();
         score.scoreMultiplier = 0.5f;
         IsImmortal = false;
+        ObstacleController.speed = 30f;
     }
 
     private void FixedUpdate()

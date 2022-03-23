@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObstacleController : MonoBehaviour
 {
-    [SerializeField] static float speed = 30f;
+    [SerializeField] public static float speed = 30f;
 
     private IEnumerator SpeedIncrease()
     {

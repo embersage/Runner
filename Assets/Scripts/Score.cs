@@ -11,7 +11,6 @@ public class Score : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
         totalScore += scoreMultiplier;
         scoreText.text = Mathf.Round(totalScore).ToString();
     }
