@@ -9,7 +9,8 @@ public class ObstacleController : MonoBehaviour
     private IEnumerator SpeedIncrease()
     {
         yield return new WaitForSeconds(1);
-        if (speed < 150) {
+        if (speed < 150)
+        {
             speed += 0.3f;
             StartCoroutine(SpeedIncrease());
         }

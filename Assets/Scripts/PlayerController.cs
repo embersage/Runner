@@ -28,11 +28,11 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Time.timeScale = 0;
-                losePanel.SetActive(true);
                 int lastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
                 PlayerPrefs.SetInt("lastRunScore", lastRunScore);
-            }            
-        }    
+                losePanel.SetActive(true);            
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider bonus)
@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
         score.scoreMultiplier = 0.5f;
         IsImmortal = false;
         ObstacleController.speed = 30f;
+        PlayerPrefs.SetInt("recordScore", 0);
     }
 
     private void FixedUpdate()
