@@ -21,4 +21,5 @@ public class BonusSpawner : MonoBehaviour
     {
         StartCoroutine(GenerateBonus());
     }
+    //ок
 }
