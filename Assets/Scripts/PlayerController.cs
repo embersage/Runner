@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
                 Destroy(obstacle.gameObject);
             else
             {
-                Time.timeScale = 0;
+                Time.timeScale = 0;                
                 int lastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
                 PlayerPrefs.SetInt("lastRunScore", lastRunScore);
                 losePanel.SetActive(true);            
@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         if (bonus.gameObject.tag == "Coin")
         {
             coinsCount++;
+            PlayerPrefs.SetInt("coins", coinsCount);
             coinsText.text = coinsCount.ToString();
             Destroy(bonus.gameObject);
         }
@@ -93,6 +94,8 @@ public class PlayerController : MonoBehaviour
         IsImmortal = false;
         ObstacleController.speed = 30f;
         PlayerPrefs.SetInt("recordScore", 0);
+        coinsCount = PlayerPrefs.GetInt("coins");
+        coinsText.text = coinsCount.ToString();
     }
 
     private void FixedUpdate()
