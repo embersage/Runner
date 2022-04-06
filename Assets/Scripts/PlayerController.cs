@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    private Animator animator;
     private int lineToMove = 0;
     public float lineDistance = 3;
     private CharacterController controller;
@@ -78,12 +79,14 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         direction.y = jumpForce;
+        animator.SetTrigger("Jump");
     }
 
     private void Start()
     {
         Time.timeScale = 1;
         losePanel.SetActive(false);
+        animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
         score = scoreText.GetComponent<Score>();
         score.scoreMultiplier = 0.5f;
@@ -117,6 +120,11 @@ public class PlayerController : MonoBehaviour
             if (controller.isGrounded)
                 Jump();
         }
+
+        if (controller.isGrounded)
+            animator.SetBool("isRunning", true);
+        else
+            animator.SetBool("isRunning", false);
 
         Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
 
