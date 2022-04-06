@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2212622689524086330
+--- !u!1 &5475609709954823256
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1584985801857248384}
-  - component: {fileID: 2472717697875583781}
-  - component: {fileID: 411002861370136559}
-  - component: {fileID: 2572835860906969874}
-  - component: {fileID: 6951192249913302666}
+  - component: {fileID: 4663080119738904290}
+  - component: {fileID: 8581975489155309895}
+  - component: {fileID: 5836025704288277901}
+  - component: {fileID: 5249036320764594422}
+  - component: {fileID: 2431147852888186799}
   m_Layer: 0
-  m_Name: Shield
-  m_TagString: BonusShield
+  m_Name: Multiplier
+  m_TagString: BonusStar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1584985801857248384
+--- !u!4 &4663080119738904290
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2212622689524086330}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_GameObject: {fileID: 5475609709954823256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!33 &2472717697875583781
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8581975489155309895
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2212622689524086330}
-  m_Mesh: {fileID: -5495902117074765545, guid: 5b171abbc602dbd49b228bc463e18115, type: 3}
---- !u!23 &411002861370136559
+  m_GameObject: {fileID: 5475609709954823256}
+  m_Mesh: {fileID: -2124705421725058983, guid: 8b85673775e64eb49bfc9e71a46a16af, type: 3}
+--- !u!23 &5836025704288277901
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2212622689524086330}
+  m_GameObject: {fileID: 5475609709954823256}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,9 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6478536213147159724, guid: 5b171abbc602dbd49b228bc463e18115, type: 3}
-  - {fileID: -3846018093981099296, guid: 5b171abbc602dbd49b228bc463e18115, type: 3}
-  - {fileID: 4874126678125670354, guid: 5b171abbc602dbd49b228bc463e18115, type: 3}
+  - {fileID: -6478536213147159724, guid: 8b85673775e64eb49bfc9e71a46a16af, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,26 +83,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2572835860906969874
+--- !u!65 &5249036320764594422
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2212622689524086330}
+  m_GameObject: {fileID: 5475609709954823256}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.015084137, y: 0.021537185, z: 0.0023130062}
-  m_Center: {x: 0, y: 0.00033485657, z: 0}
---- !u!114 &6951192249913302666
+  m_Size: {x: 0.016785901, y: 0.016054882, z: 0.0028933892}
+  m_Center: {x: -0.000042976346, y: 0.0007199617, z: 0.0014466946}
+--- !u!114 &2431147852888186799
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2212622689524086330}
+  m_GameObject: {fileID: 5475609709954823256}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1e9b51d676e2294c8ceb19e475dbddb, type: 3}
