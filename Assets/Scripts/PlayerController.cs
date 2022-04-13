@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text coinsText;
     [SerializeField] private Score scoreScript;
     private bool IsImmortal;
+    public AudioSource coinSound;
+    public AudioSource starSound;
+    public AudioSource shieldSound;
+    
 
     private void OnCollisionEnter(Collision obstacle)
     {
@@ -28,10 +32,13 @@ public class PlayerController : MonoBehaviour
                 Destroy(obstacle.gameObject);
             else
             {
-                Time.timeScale = 0;                
+                
+                Time.timeScale = 0;
+                //obstacleSound.Play();
                 int lastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
                 PlayerPrefs.SetInt("lastRunScore", lastRunScore);
-                losePanel.SetActive(true);            
+                losePanel.SetActive(true);
+                
             }
         }
     }
@@ -44,18 +51,21 @@ public class PlayerController : MonoBehaviour
             PlayerPrefs.SetInt("coins", coinsCount);
             coinsText.text = coinsCount.ToString();
             Destroy(bonus.gameObject);
+            coinSound.Play();
         }
 
         if (bonus.gameObject.tag == "BonusStar")
         {
             StartCoroutine(StarBonus());
             Destroy(bonus.gameObject);
+            starSound.Play();
         }
 
         if (bonus.gameObject.tag == "BonusShield")
         {
             StartCoroutine(ShieldBonus());
             Destroy(bonus.gameObject);
+            shieldSound.Play();
         }
     }
 
