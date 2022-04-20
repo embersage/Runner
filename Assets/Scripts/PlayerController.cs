@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 direction;
     private Score score;
+    private CapsuleCollider capsule;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
     [SerializeField] private int coinsCount;
@@ -34,9 +35,17 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Time.timeScale = 0;
-                //obstacleSound.Play();
+                obstacleSound.Play();
                 int lastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
                 PlayerPrefs.SetInt("lastRunScore", lastRunScore);
+                if (LosePanel.proceed)
+                {
+                    losePanel.SetActive(false);
+                    LosePanel.proceed = false;
+                    coinsText.text = coinsCount.ToString();
+                    Destroy(obstacle.gameObject);
+                    
+                }
                 losePanel.SetActive(true);
                 obstacleSound.Play();                
             }
@@ -87,15 +96,28 @@ public class PlayerController : MonoBehaviour
         IsImmortal = false;
     }
 
+    private IEnumerator MovingCollider()
+    {
+        capsule.center = new Vector3(0, 1.15f, 0);
+        controller.center = new Vector3(0, 1.15f, 0);
+
+        yield return new WaitForSeconds(0.8f);
+
+        capsule.center = new Vector3(0, 0.15f, 0);
+        controller.center = new Vector3(0, 0.15f, 0);
+    }
+
     private void Jump()
     {
         direction.y = jumpForce;
         animator.SetTrigger("Jump");
+        StartCoroutine(MovingCollider());
     }
 
     private void Start()
     {
         Time.timeScale = 1;
+        LosePanel.proceed = false;
         losePanel.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
@@ -106,6 +128,7 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.SetInt("recordScore", 0);
         coinsCount = PlayerPrefs.GetInt("coins");
         coinsText.text = coinsCount.ToString();
+        capsule = GetComponent<CapsuleCollider>();
     }
 
     private void FixedUpdate()

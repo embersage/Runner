@@ -12,7 +12,7 @@ public class ObstaclesSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1.5f);
-            GameObject newObstaclePrefab = Instantiate(ObstaclesPrefabs[Random.Range(0, 4)], ObstaclesPositions[Random.Range(0, 3)].position, Quaternion.identity);
+            GameObject newObstaclePrefab = Instantiate(ObstaclesPrefabs[Random.Range(0, 8)], ObstaclesPositions[Random.Range(0, 3)].position, Quaternion.identity);
             Destroy(newObstaclePrefab, 5);
         }
     }
