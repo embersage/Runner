@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour
     public AudioSource coinSound;
     public AudioSource starSound;
     public AudioSource shieldSound;
-    
+    public AudioSource obstacleSound;
+
 
     private void OnCollisionEnter(Collision obstacle)
     {
@@ -32,13 +33,12 @@ public class PlayerController : MonoBehaviour
                 Destroy(obstacle.gameObject);
             else
             {
-                
                 Time.timeScale = 0;
                 //obstacleSound.Play();
                 int lastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
                 PlayerPrefs.SetInt("lastRunScore", lastRunScore);
                 losePanel.SetActive(true);
-                
+                obstacleSound.Play();                
             }
         }
     }

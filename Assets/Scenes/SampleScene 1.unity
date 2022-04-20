@@ -2104,6 +2104,7 @@ MonoBehaviour:
   coinSound: {fileID: 329028710}
   starSound: {fileID: 472949395}
   shieldSound: {fileID: 529849366}
+  obstacleSound: {fileID: 1261905159}
 --- !u!54 &1804324994
 Rigidbody:
   m_ObjectHideFlags: 0
