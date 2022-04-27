@@ -12,12 +12,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     private Score score;
     private CapsuleCollider capsule;
+    public GameObject hitObstacle;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
-    [SerializeField] private int coinsCount;
+    [SerializeField] public int coinsCount;
     [SerializeField] private GameObject scoreText;
-    [SerializeField] private GameObject losePanel;
-    [SerializeField] private Text coinsText;
+    [SerializeField] public GameObject losePanel;
+    [SerializeField] public Text coinsText;
     [SerializeField] private Score scoreScript;
     private bool IsImmortal;
     public AudioSource coinSound;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         if (obstacle.collider.GetComponent<ObstacleController>())
         {
+            hitObstacle = obstacle.gameObject;
             if (IsImmortal)
                 Destroy(obstacle.gameObject);
             else
@@ -38,14 +40,6 @@ public class PlayerController : MonoBehaviour
                 obstacleSound.Play();
                 int lastRunScore = int.Parse(scoreScript.scoreText.text.ToString());
                 PlayerPrefs.SetInt("lastRunScore", lastRunScore);
-                if (LosePanel.proceed)
-                {
-                    losePanel.SetActive(false);
-                    LosePanel.proceed = false;
-                    coinsText.text = coinsCount.ToString();
-                    Destroy(obstacle.gameObject);
-                    
-                }
                 losePanel.SetActive(true);
                 obstacleSound.Play();                
             }
@@ -117,11 +111,11 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
-        LosePanel.proceed = false;
         losePanel.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
         score = scoreText.GetComponent<Score>();
+        capsule = GetComponent<CapsuleCollider>();
         score.scoreMultiplier = 0.5f;
         IsImmortal = false;
         ObstacleController.speed = 30f;
@@ -141,19 +135,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (SwipeController.swipeRight)
+        if (SwipeController.swipeRight || Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (lineToMove < 3)
                 lineToMove += 3;
         }
 
-        if (SwipeController.swipeLeft)
+        if (SwipeController.swipeLeft || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (lineToMove > -3)
                 lineToMove -= 3;
         }
 
-        if (SwipeController.swipeUp)
+        if (SwipeController.swipeUp || Input.GetKeyDown(KeyCode.Space))
         {
             if (controller.isGrounded)
                 Jump();

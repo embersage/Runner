@@ -7,15 +7,15 @@ using UnityEngine.UI;
 public class LosePanel : MonoBehaviour
 {
     [SerializeField] Text recordText;
-    [SerializeField] private int coinsCount;
-    public static bool proceed = false;
+    PlayerController player;
+    GameObject continueButton;
 
     private void Start()
     {
-        proceed = false;
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
+        continueButton = GameObject.Find("Continue Button");
         int lastRunScore = PlayerPrefs.GetInt("lastRunScore");
         int recordScore = PlayerPrefs.GetInt("recordScore");
-        coinsCount = PlayerPrefs.GetInt("coins");
 
         if (lastRunScore > recordScore)
         {
@@ -36,11 +36,13 @@ public class LosePanel : MonoBehaviour
 
     public void Continue()
     {
-        if (coinsCount >= 50)
+        if (player.coinsCount >= 50)
         {
-            proceed = true;
-            coinsCount -= 50;
-            PlayerPrefs.SetInt("coins", coinsCount);
+            player.losePanel.SetActive(false);
+            Destroy(player.hitObstacle);
+            player.coinsCount -= 50;
+            PlayerPrefs.SetInt("coins", player.coinsCount);
+            player.coinsText.text = player.coinsCount.ToString();
             Time.timeScale = 1;
         }
     }
