@@ -1394,7 +1394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordText: {fileID: 912430857}
-  coinsCount: 0
 --- !u!64 &1030991265
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2232,6 +2231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineDistance: 3
+  hitObstacle: {fileID: 0}
   jumpForce: 15
   gravity: -30
   coinsCount: 0
