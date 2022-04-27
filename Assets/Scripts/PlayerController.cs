@@ -129,6 +129,8 @@ public class PlayerController : MonoBehaviour
         coinsCount = PlayerPrefs.GetInt("coins");
         coinsText.text = coinsCount.ToString();
         capsule = GetComponent<CapsuleCollider>();
+        PlayerPrefs.SetInt("coins", 1000);
+        coinsText.text = coinsCount.ToString();
     }
 
     private void FixedUpdate()
