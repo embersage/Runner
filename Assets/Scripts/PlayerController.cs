@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class PlayerController : MonoBehaviour
     public AudioSource starSound;
     public AudioSource shieldSound;
     public AudioSource obstacleSound;
+
+    private float currentTime, duration;
+    public Image imageTimer;
 
     private void OnCollisionEnter(Collision obstacle)
     {
@@ -59,6 +63,7 @@ public class PlayerController : MonoBehaviour
 
         if (bonus.gameObject.tag == "BonusStar")
         {
+            currentTime = duration = 5;
             StartCoroutine(StarBonus());
             Destroy(bonus.gameObject);
             starSound.Play();
@@ -66,6 +71,7 @@ public class PlayerController : MonoBehaviour
 
         if (bonus.gameObject.tag == "BonusShield")
         {
+            currentTime = duration = 10;
             StartCoroutine(ShieldBonus());
             Destroy(bonus.gameObject);
             shieldSound.Play();
@@ -74,19 +80,21 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator StarBonus()
     {
+        StartCoroutine(StartTimer());
         score.scoreMultiplier = 1;
-
+        
         yield return new WaitForSeconds(5);
-
+        
         score.scoreMultiplier = 0.5f;
     }
 
     private IEnumerator ShieldBonus()
     {
+        StartCoroutine(StartTimer());
         IsImmortal = true;
 
         yield return new WaitForSeconds(10);
-
+        
         IsImmortal = false;
     }
 
@@ -99,6 +107,18 @@ public class PlayerController : MonoBehaviour
 
         capsule.center = new Vector3(0, 0.15f, 0);
         controller.center = new Vector3(0, 0.15f, 0);
+    }
+
+    private IEnumerator StartTimer()
+    {
+        imageTimer.enabled = true;
+        while (currentTime >= 0)
+        {
+            imageTimer.fillAmount = Mathf.InverseLerp(0, duration, currentTime);
+            yield return new WaitForSeconds(1f);
+            currentTime -= 0.5f;
+        }
+        imageTimer.enabled = false;
     }
 
     private void Jump()
@@ -124,8 +144,7 @@ public class PlayerController : MonoBehaviour
         coinsCount = PlayerPrefs.GetInt("coins");
         coinsText.text = coinsCount.ToString();
         capsule = GetComponent<CapsuleCollider>();
-        PlayerPrefs.SetInt("coins", 1000);
-        coinsText.text = coinsCount.ToString();
+        imageTimer.enabled = false;
     }
 
     private void FixedUpdate()
