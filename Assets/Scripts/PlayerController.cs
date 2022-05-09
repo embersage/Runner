@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
                 PlayerPrefs.SetInt("lastRunScore", lastRunScore);
                 
                 losePanel.SetActive(true);
-                
+                obstacleSound.Play();                
             }
         }
     }
@@ -122,6 +122,9 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.SetInt("recordScore", 0);
         PlayerPrefs.SetInt("coins", 250);
         coinsCount = PlayerPrefs.GetInt("coins");
+        coinsText.text = coinsCount.ToString();
+        capsule = GetComponent<CapsuleCollider>();
+        PlayerPrefs.SetInt("coins", 1000);
         coinsText.text = coinsCount.ToString();
     }
 
