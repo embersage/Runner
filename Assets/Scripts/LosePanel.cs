@@ -14,6 +14,7 @@ public class LosePanel : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         continueButton = GameObject.Find("Continue Button");
+
         int lastRunScore = PlayerPrefs.GetInt("lastRunScore");
         int recordScore = PlayerPrefs.GetInt("recordScore");
 
@@ -45,5 +46,7 @@ public class LosePanel : MonoBehaviour
             player.coinsText.text = player.coinsCount.ToString();
             Time.timeScale = 1;
         }
+        else
+            continueButton.SetActive(false);
     }
 }
