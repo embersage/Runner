@@ -6,14 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class PausePanel : MonoBehaviour
 {
-    void Start()
+    GameObject pausePanel;
+
+    private void Start()
     {
-        Time.timeScale = 0;
+        pausePanel = GameObject.Find("PausePanel");
     }
 
-    void Update()
+    public void Stop()
     {
-        
+        Time.timeScale = 0;
+        pausePanel.SetActive(true);
     }
 
     public void ToMenu()
@@ -24,5 +27,6 @@ public class PausePanel : MonoBehaviour
     public void Continue()
     {
         Time.timeScale = 1;
+        pausePanel.SetActive(false);
     }
 }

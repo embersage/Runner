@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public int coinsCount;
     [SerializeField] private GameObject scoreText;
     [SerializeField] public GameObject losePanel;
+    [SerializeField] public GameObject pausePanel;
     [SerializeField] public Text coinsText;
     [SerializeField] private Score scoreScript;
     private bool IsImmortal;
@@ -145,6 +146,7 @@ public class PlayerController : MonoBehaviour
     {
         Time.timeScale = 1;
         losePanel.SetActive(false);
+        pausePanel.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
         score = scoreText.GetComponent<Score>();
