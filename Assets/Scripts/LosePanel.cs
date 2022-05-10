@@ -49,4 +49,9 @@ public class LosePanel : MonoBehaviour
         else
             continueButton.SetActive(false);
     }
+
+    public void ToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
