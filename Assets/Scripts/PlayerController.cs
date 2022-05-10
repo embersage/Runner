@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
     public AudioSource obstacleSound;
 
     private float currentTime, duration;
-    public Image imageTimer;
+    public Image imageTimerStar;
+    public Image imageTimerShield;
 
     private void OnCollisionEnter(Collision obstacle)
     {
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
         if (bonus.gameObject.tag == "BonusStar")
         {
-            currentTime = duration = 5;
+            currentTime = duration = 50;
             StartCoroutine(StarBonus());
             Destroy(bonus.gameObject);
             starSound.Play();
@@ -71,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
         if (bonus.gameObject.tag == "BonusShield")
         {
-            currentTime = duration = 10;
+            currentTime = duration = 100;
             StartCoroutine(ShieldBonus());
             Destroy(bonus.gameObject);
             shieldSound.Play();
@@ -80,23 +81,44 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator StarBonus()
     {
-        StartCoroutine(StartTimer());
+        StartCoroutine(StartTimerStar());
         score.scoreMultiplier = 1;
         
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(50);
         
         score.scoreMultiplier = 0.5f;
     }
 
     private IEnumerator ShieldBonus()
     {
-        StartCoroutine(StartTimer());
-        IsImmortal = true;
-
-        yield return new WaitForSeconds(10);
+        if (!IsImmortal)
+        {
+            StartCoroutine(StartTimerShield());
+            IsImmortal = true;
+            yield return new WaitForSeconds(100);
+            IsImmortal = false;
+        }
+        else
+        {
+            StopCoroutine(ShieldBonus());
+            IsImmortal = false;
+            StartCoroutine(StartTimerShield());
+            IsImmortal = true;
+            yield return new WaitForSeconds(100);
+            IsImmortal = false;
+        }
         
-        IsImmortal = false;
     }
+
+    //private IEnumerator ShieldBonus()
+    //{
+    //    StartCoroutine(StartTimerShield());
+    //    IsImmortal = true;
+
+    //    yield return new WaitForSeconds(10);
+
+    //    IsImmortal = false;
+    //}
 
     private IEnumerator MovingCollider()
     {
@@ -109,16 +131,28 @@ public class PlayerController : MonoBehaviour
         controller.center = new Vector3(0, 0.15f, 0);
     }
 
-    private IEnumerator StartTimer()
+    private IEnumerator StartTimerStar()
     {
-        imageTimer.enabled = true;
+        imageTimerStar.enabled = true;
         while (currentTime >= 0)
         {
-            imageTimer.fillAmount = Mathf.InverseLerp(0, duration, currentTime);
+            imageTimerStar.fillAmount = Mathf.InverseLerp(0, duration, currentTime);
             yield return new WaitForSeconds(1f);
             currentTime -= 0.5f;
         }
-        imageTimer.enabled = false;
+        imageTimerStar.enabled = false;
+    }
+
+    private IEnumerator StartTimerShield()
+    {
+        imageTimerShield.enabled = true;
+        while (currentTime >= 0)
+        {
+            imageTimerShield.fillAmount = Mathf.InverseLerp(0, duration, currentTime);
+            yield return new WaitForSeconds(1f);
+            currentTime -= 0.5f;
+        }
+        imageTimerShield.enabled = false;
     }
 
     private void Jump()
@@ -144,7 +178,8 @@ public class PlayerController : MonoBehaviour
         coinsCount = PlayerPrefs.GetInt("coins");
         coinsText.text = coinsCount.ToString();
         capsule = GetComponent<CapsuleCollider>();
-        imageTimer.enabled = false;
+        imageTimerStar.enabled = false;
+        imageTimerShield.enabled = false;
     }
 
     private void FixedUpdate()
