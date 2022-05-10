@@ -11,7 +11,7 @@ public class BonusSpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(15f);
             GameObject newBonusPrefab = Instantiate(BonusesPrefabs[Random.Range(0, 2)], BonusesPositions[Random.Range(0, 3)].position, Quaternion.identity);
             Destroy(newBonusPrefab, 5);
         }
@@ -21,5 +21,4 @@ public class BonusSpawner : MonoBehaviour
     {
         StartCoroutine(GenerateBonus());
     }
-    //ок
 }

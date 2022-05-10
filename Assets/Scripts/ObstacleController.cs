@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ObstacleController : MonoBehaviour
 {
-    [SerializeField] public static float speed = 30f;
+    public static float speed = 30f;
 
     private IEnumerator SpeedIncrease()
     {
-        yield return new WaitForSeconds(1);
-        if (speed < 150)
+        yield return new WaitForSeconds(1f);
+        if (speed < 60)
         {
-            speed += 0.3f;
+            speed += 0.25f;
             StartCoroutine(SpeedIncrease());
         }
     }

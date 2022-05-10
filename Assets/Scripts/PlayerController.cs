@@ -8,11 +8,15 @@ public class PlayerController : MonoBehaviour
 {
     private Animator animator;
     private int lineToMove = 0;
-    public float lineDistance = 3;
+    public float lineDistance = 4;
     private CharacterController controller;
     private Vector3 direction;
     private Score score;
     private CapsuleCollider capsule;
+    private float currentTimeStar, durationStar;
+    private float currentTimeShield, durationShield;
+    public Image imageTimerStar;
+    public Image imageTimerShield;
     public GameObject hitObstacle;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
@@ -26,10 +30,6 @@ public class PlayerController : MonoBehaviour
     public AudioSource starSound;
     public AudioSource shieldSound;
     public AudioSource obstacleSound;
-
-    private float currentTime, duration;
-    public Image imageTimerStar;
-    public Image imageTimerShield;
 
     private void OnCollisionEnter(Collision obstacle)
     {
@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
 
         if (bonus.gameObject.tag == "BonusStar")
         {
-            currentTime = duration = 50;
             StartCoroutine(StarBonus());
             Destroy(bonus.gameObject);
             starSound.Play();
@@ -72,53 +71,64 @@ public class PlayerController : MonoBehaviour
 
         if (bonus.gameObject.tag == "BonusShield")
         {
-            currentTime = duration = 100;
             StartCoroutine(ShieldBonus());
             Destroy(bonus.gameObject);
-            shieldSound.Play();
+            shieldSound.Play(); 
         }
     }
 
     private IEnumerator StarBonus()
     {
+        currentTimeStar = durationStar = 10;
         StartCoroutine(StartTimerStar());
         score.scoreMultiplier = 1;
-        
-        yield return new WaitForSeconds(50);
-        
+
+        yield return new WaitForSeconds(10);
+
         score.scoreMultiplier = 0.5f;
     }
 
     private IEnumerator ShieldBonus()
     {
-        if (!IsImmortal)
-        {
-            StartCoroutine(StartTimerShield());
-            IsImmortal = true;
-            yield return new WaitForSeconds(100);
-            IsImmortal = false;
-        }
-        else
-        {
-            StopCoroutine(ShieldBonus());
-            IsImmortal = false;
-            StartCoroutine(StartTimerShield());
-            IsImmortal = true;
-            yield return new WaitForSeconds(100);
-            IsImmortal = false;
-        }
-        
+        currentTimeShield = durationShield = 10;
+        StartCoroutine(StartTimerShield());
+        IsImmortal = true;
+
+        yield return new WaitForSeconds(10);
+
+        IsImmortal = false;
     }
 
-    //private IEnumerator ShieldBonus()
-    //{
-    //    StartCoroutine(StartTimerShield());
-    //    IsImmortal = true;
+    private IEnumerator StartTimerStar()
+    {
+        imageTimerStar.enabled = true;
+        while (currentTimeStar >= 0)
+        {
+            imageTimerStar.fillAmount = Mathf.InverseLerp(0, durationStar, currentTimeStar);
+            yield return new WaitForSeconds(1f);
+            currentTimeStar -= 0.5f;
+        }
+        imageTimerStar.enabled = false;
+    }
 
-    //    yield return new WaitForSeconds(10);
+    private IEnumerator StartTimerShield()
+    {
+        imageTimerShield.enabled = true;
+        while (currentTimeShield >= 0)
+        {
+            imageTimerShield.fillAmount = Mathf.InverseLerp(0, durationShield, currentTimeShield);
+            yield return new WaitForSeconds(1f);
+            currentTimeShield -= 0.5f;
+        }
+        imageTimerShield.enabled = false;
+    }
 
-    //    IsImmortal = false;
-    //}
+    private void Jump()
+    {
+        direction.y = jumpForce;
+        animator.SetTrigger("Jump");
+        StartCoroutine(MovingCollider());
+    }
 
     private IEnumerator MovingCollider()
     {
@@ -129,37 +139,6 @@ public class PlayerController : MonoBehaviour
 
         capsule.center = new Vector3(0, 0.15f, 0);
         controller.center = new Vector3(0, 0.15f, 0);
-    }
-
-    private IEnumerator StartTimerStar()
-    {
-        imageTimerStar.enabled = true;
-        while (currentTime >= 0)
-        {
-            imageTimerStar.fillAmount = Mathf.InverseLerp(0, duration, currentTime);
-            yield return new WaitForSeconds(1f);
-            currentTime -= 0.5f;
-        }
-        imageTimerStar.enabled = false;
-    }
-
-    private IEnumerator StartTimerShield()
-    {
-        imageTimerShield.enabled = true;
-        while (currentTime >= 0)
-        {
-            imageTimerShield.fillAmount = Mathf.InverseLerp(0, duration, currentTime);
-            yield return new WaitForSeconds(1f);
-            currentTime -= 0.5f;
-        }
-        imageTimerShield.enabled = false;
-    }
-
-    private void Jump()
-    {
-        direction.y = jumpForce;
-        animator.SetTrigger("Jump");
-        StartCoroutine(MovingCollider());
     }
 
     private void Start()
@@ -192,14 +171,14 @@ public class PlayerController : MonoBehaviour
     {
         if (SwipeController.swipeRight || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (lineToMove < 3)
-                lineToMove += 3;
+            if (lineToMove < 4)
+                lineToMove += 4;
         }
 
         if (SwipeController.swipeLeft || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (lineToMove > -3)
-                lineToMove -= 3;
+            if (lineToMove > -4)
+                lineToMove -= 4;
         }
 
         if (SwipeController.swipeUp || Input.GetKeyDown(KeyCode.Space))
@@ -215,9 +194,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
 
-        if (lineToMove == -3)
+        if (lineToMove == -4)
             targetPosition += Vector3.left * lineDistance;
-        else if (lineToMove == 3)
+        else if (lineToMove == 4)
             targetPosition += Vector3.right * lineDistance;
 
         if (transform.position == targetPosition)
