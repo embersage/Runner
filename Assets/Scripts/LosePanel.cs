@@ -9,6 +9,7 @@ public class LosePanel : MonoBehaviour
     [SerializeField] Text recordText;
     PlayerController player;
     GameObject continueButton;
+    public AudioSource buttonSound;
 
     private void Start()
     {
@@ -34,9 +35,14 @@ public class LosePanel : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+    public void RestartSound()
+    {
+        buttonSound.Play();
+    }
 
     public void Continue()
     {
+        buttonSound.Play();
         if (player.coinsCount >= 50)
         {
             player.losePanel.SetActive(false);
@@ -52,6 +58,7 @@ public class LosePanel : MonoBehaviour
 
     public void ToMenu()
     {
+        buttonSound.Play();
         SceneManager.LoadScene(0);
     }
 }
